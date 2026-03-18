@@ -1,0 +1,61 @@
+openapi: 3.0.3
+info:
+  title: Fox Trails API
+  version: 1.0.0
+
+paths:
+  /routes/generate:
+    post:
+      summary: Generate route
+      operationId: generateRoute
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RouteRequest'
+      responses:
+        '200':
+          description: Route generated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RouteResponse'
+
+components:
+  schemas:
+
+    RouteRequest:
+      type: object
+      required: [lat, lon]
+      properties:
+        lat:
+          type: number
+        lon:
+          type: number
+        interests:
+          type: array
+          items:
+            type: string
+        max_distance_km:
+          type: number
+
+    Point:
+      type: object
+      properties:
+        name:
+          type: string
+        lat:
+          type: number
+        lon:
+          type: number
+
+    RouteResponse:
+      type: object
+      properties:
+        distance_km:
+          type: number
+        points:
+          type: array
+          items:
+            $ref: '#/components/schemas/Point'
