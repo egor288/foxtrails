@@ -4,19 +4,17 @@ import { Link } from "react-router-dom";
 function Navbar() {
     const isLoggedIn = false
     return(
-        <nav className="relative p-4 m-4 h-14 bg-gray-200 rounded-xl">
-            <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center gap-4">
-                <Link to="/">Home</Link>
-                <Link to="/generation">Generation</Link>
-            </div>
+        <nav className="bg-transperent text-lg p-4relative fixed top-0 left-0 w-full z-50 bg-transparent p-4 pt-10 text-white ">
             {!isLoggedIn && (
                 <div className="absolute right-6 top-1/2 -translate-y-1/2 flex items-center gap-4">
-                    <Link to="/signUp">Sign Up</Link>
-                    <Link to="/signIn">Sign In</Link>
+                    <Link to="/signUp" style={{ backgroundColor: '#373e1e' }} 
+                    className = "font-['normal'] px-4 py-2 text-white rounded-full hover:opacity-80 transition">Sign Up</Link>
+                    <Link to="/signIn" style={{ backgroundColor: '#373e1e' }}
+                    className = "font-['normal'] px-4 py-2 text-white rounded-full hover:opacity-80 transition">Sign In</Link>
                 </div>
             )}
             {isLoggedIn && (
-                <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center gap-4">
+                <div className="absolute right-6 top-1/2 -translate-y-1/2 flex items-center gap-4">
                     <Link to="/profile">Profile</Link>
                 </div>
             )}
