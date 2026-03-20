@@ -3,23 +3,29 @@ package main
 import (
 	"github.com/labstack/echo/v4"
 
-	api "github.com/egor288/foxtrails/internal/gateway/http"
-	httpHandler "github.com/egor288/foxtrails/internal/gateway/http"
-	"github.com/egor288/foxtrails/internal/usecase"
+	"foxtrails/internal/gateway/db"
+	"foxtrails/internal/gateway/http"
+	"foxtrails/internal/service"
 )
 
 func main() {
-
 	e := echo.New()
 
-	// usecase
-	routeUC := usecase.NewRouteUsecase()
+	svc := service.NewService()
+	handler := http.NewHandler(svc)
 
-	// handler
-	handler := httpHandler.NewHandler(routeUC)
+	dbConn, err := db.New()
+	if err != nil {
+		panic(err)
+	}
 
-	// регистрация swagger-generated интерфейса
-	api.RegisterHandlers(e, handler)
+	authHandler := http.NewAuthHandler(dbConn)
+
+	e.POST("/auth/register", authHandler.Register)
+	e.POST("/auth/login", authHandler.Login)
+
+	e.GET("/health", handler.Health)
+	e.POST("/routes/generate", handler.GenerateRoute)
 
 	e.Logger.Fatal(e.Start(":8080"))
 }
