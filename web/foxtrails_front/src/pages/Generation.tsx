@@ -89,12 +89,12 @@ function Generation() {
                 />
             </svg>
             
-            <div className="max-w-6xl mx-auto px-6 py-8 relative z-10">
-                <div className="rounded-3xl p-8" style={{ backgroundColor: 'rgba(184, 184, 184, 0.5)' }}>
+            <div className="max-w-6xl mx-auto px-6 py-16 relative z-10">
+                <div className="rounded-3xl p-8" style={{ backgroundColor: 'rgba(255, 255, 255, 0.6)' }}>
                     {/* Основной контент - горизонтальная сетка */}
                     <div className="grid grid-cols-3 gap-8">
                         {/* Левая колонка - Заголовок и способ передвижения */}
-                        <div className="rounded-2xl p-6" style={{ backgroundColor: 'rgba(169, 169, 169, 0.5)' }}>
+                        <div className="rounded-2xl p-6" style={{ backgroundColor: 'rgba(39, 46, 19, 0.2)' }}>
                             <div className="text-center mb-6">
                                 <h1 className="text-3xl font-bold mb-2" style={{ color: '#2D2D2D' }}>
                                     Для создания тура
@@ -139,7 +139,7 @@ function Generation() {
                         </div>
 
                         {/* Центральная колонка - Компания и даты */}
-                        <div className="rounded-2xl p-6" style={{ backgroundColor: 'rgba(169, 169, 169, 0.5)' }}>
+                        <div className="rounded-2xl p-6" style={{ backgroundColor: 'rgba(39, 46, 19, 0.2)' }}>
                             <div className="space-y-8">
                                 {/* Компания */}
                                 <div className="space-y-4">
@@ -305,7 +305,7 @@ function Generation() {
                         </div>
 
                         {/* Правая колонка - Предпочтения */}
-                        <div className="rounded-2xl p-6" style={{ backgroundColor: 'rgba(169, 169, 169, 0.5)' }}>
+                        <div className="rounded-2xl p-6" style={{ backgroundColor: 'rgba(39, 46, 19, 0.2)' }}>
                             <h2 className="text-lg font-semibold mb-4" style={{ color: '#2D2D2D' }}>Предпочтения</h2>
                             <div className="space-y-3">
                                 {[
