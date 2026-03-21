@@ -96,14 +96,14 @@ function Generation() {
                         {/* Левая колонка - Заголовок и способ передвижения */}
                         <div className="rounded-2xl p-6" style={{ backgroundColor: 'rgba(39, 46, 19, 0.2)' }}>
                             <div className="text-center mb-6">
-                                <h1 className="text-3xl font-bold mb-2" style={{ color: '#2D2D2D' }}>
+                                <h1 className="text-3xl font-['normal'] mb-2" style={{ color: '#2D2D2D' }}>
                                     Для создания тура
                                 </h1>
-                                <p className="text-lg" style={{ color: '#4A4A4A' }}>заполни анкету</p>
+                                <p className="text-lg font-['normal']" style={{ color: '#4A4A4A' }}>заполни анкету</p>
                             </div>
 
                             <div className="space-y-4">
-                                <h2 className="text-lg font-semibold" style={{ color: '#2D2D2D' }}>Предпочтения по желанию</h2>
+                                <h2 className="text-xl font-['normal']" style={{ color: '#2D2D2D' }}>Предпочтения по желанию</h2>
                                 <div className="space-y-3">
                                     {['Отель/гостиница', 'Квартира/апартаменты', 'Дом'].map(option => (
                                         <label key={option} className="flex items-center space-x-3 cursor-pointer">
@@ -134,7 +134,7 @@ function Generation() {
                                                     border-color: #627430;
                                                 }
                                             `}</style>
-                                            <span style={{ color: '#2D2D2D' }}>{option}</span>
+                                            <span className="font-['normal'] text-base" style={{ color: '#2D2D2D' }}>{option}</span>
                                         </label>
                                     ))}
                                 </div>
@@ -146,20 +146,20 @@ function Generation() {
                             <div className="space-y-8">
                                 {/* Компания */}
                                 <div className="space-y-4">
-                                    <h2 className="text-lg font-semibold" style={{ color: '#2D2D2D' }}>Какая компания будет?</h2>
+                                    <h2 className="text-xl font-['normal']" style={{ color: '#2D2D2D' }}>Какая компания будет?</h2>
                                     <div className="animate-in fade-in slide-in-from-top-2 duration-300 mt-1 p-4 rounded-lg" style={{ backgroundColor: 'rgba(39, 46, 19, 0.2)' }}>
                                         <div className="space-y-6">
                                             <div className="flex items-center justify-between">
                                                 <div>
-                                                    <p className="font-semibold text-base leading-tight" style={{ color: '#2D2D2D' }}>Взрослые</p>
-                                                    <p className="text-sm leading-tight" style={{ color: '#4A4A4A' }}>12 лет и старше</p>
+                                                    <p className="font-semibold text-base leading-tight font-['normal']" style={{ color: '#2D2D2D' }}>Взрослые</p>
+                                                    <p className="text-sm leading-tight font-['normal']" style={{ color: '#4A4A4A' }}>12 лет и старше</p>
                                                 </div>
 
                                                 <div className="flex items-center gap-2">
                                                     <button
                                                         onClick={decrementAdults}
                                                         disabled={adultsCount <= 1}
-                                                        className={`w-10 h-10 rounded-full font-bold text-xl leading-none transition-all duration-200 ${
+                                                        className={`w-10 h-10 rounded-full font-['normal'] text-xl leading-none transition-all duration-200 ${
                                                             adultsCount <= 1
                                                                 ? 'cursor-not-allowed'
                                                                 : 'hover:opacity-80'
@@ -173,13 +173,13 @@ function Generation() {
                                                         −
                                                     </button>
 
-                                                    <div className="min-w-[2rem] text-center text-lg font-semibold" style={{ color: '#2D2D2D' }}>
+                                                    <div className="min-w-[2rem] text-center text-lg font-['normal']" style={{ color: '#2D2D2D' }}>
                                                         {adultsCount}
                                                     </div>
 
                                                     <button
                                                         onClick={incrementAdults}
-                                                        className="w-10 h-10 rounded-full font-bold text-xl leading-none transition-all duration-200 hover:opacity-80"
+                                                        className="w-10 h-10 rounded-full font-['normal'] text-xl leading-none transition-all duration-200 hover:opacity-80"
                                                         style={{ backgroundColor: 'rgba(39, 46, 19, 0.6)', color: '#FFFFFF' }}
                                                         aria-label="Увеличить количество взрослых"
                                                     >
@@ -190,15 +190,15 @@ function Generation() {
 
                                             <div className="flex items-center justify-between">
                                                 <div>
-                                                    <p className="font-semibold text-base leading-tight" style={{ color: '#2D2D2D' }}>Дети</p>
-                                                    <p className="text-sm leading-tight" style={{ color: '#4A4A4A' }}>от 2 до 11 лет</p>
+                                                    <p className="font-semibold text-base leading-tight font-['normal']" style={{ color: '#2D2D2D' }}>Дети</p>
+                                                    <p className="text-sm leading-tight font-['normal']" style={{ color: '#4A4A4A' }}>от 2 до 11 лет</p>
                                                 </div>
 
                                                 <div className="flex items-center gap-2">
                                                     <button
                                                         onClick={decrementChildren}
                                                         disabled={childrenCount <= 0}
-                                                        className={`w-10 h-10 rounded-full font-bold text-xl leading-none transition-all duration-200 ${
+                                                        className={`w-10 h-10 rounded-full text-xl leading-none transition-all duration-200 font-['normal'] ${
                                                             childrenCount <= 0
                                                                 ? 'cursor-not-allowed'
                                                                 : 'hover:opacity-80'
@@ -212,13 +212,13 @@ function Generation() {
                                                         −
                                                     </button>
 
-                                                    <div className="min-w-[2rem] text-center text-lg font-semibold" style={{ color: '#2D2D2D' }}>
+                                                    <div className="min-w-[2rem] text-center text-lg font-['normal']" style={{ color: '#2D2D2D' }}>
                                                         {childrenCount}
                                                     </div>
 
                                                     <button
                                                         onClick={incrementChildren}
-                                                        className="w-10 h-10 rounded-full font-bold text-xl leading-none transition-all duration-200 hover:opacity-80"
+                                                        className="w-10 h-10 rounded-full text-xl leading-none transition-all duration-200 hover:opacity-80 font-['normal']"
                                                         style={{ backgroundColor: 'rgba(39, 46, 19, 0.6)', color: '#FFFFFF' }}
                                                         aria-label="Увеличить количество детей"
                                                     >
@@ -232,8 +232,8 @@ function Generation() {
 
                                 {/* Даты */}
                                 <div className="space-y-4">
-                                    <h2 className="text-lg font-semibold" style={{ color: '#2D2D2D' }}>В какие даты?</h2>
-                                    <div className="flex gap-4">
+                                    <h2 className="text-xl font-['normal']" style={{ color: '#2D2D2D' }}>В какие даты?</h2>
+                                    <div className="flex gap-4 font-['normal']">
                                         <input
                                             type="number"
                                             placeholder="ДД"
@@ -309,8 +309,8 @@ function Generation() {
 
                         {/* Правая колонка - Предпочтения */}
                         <div className="rounded-2xl p-6" style={{ backgroundColor: 'rgba(39, 46, 19, 0.2)' }}>
-                            <h2 className="text-lg font-semibold mb-4" style={{ color: '#2D2D2D' }}>Предпочтения</h2>
-                            <div className="space-y-3">
+                            <h2 className="text-xl font-['normal'] mb-4" style={{ color: '#2D2D2D' }}>Предпочтения</h2>
+                            <div className="space-y-3 font-['normal'] ">
                                 {[
                                     'Винодельни/винные туры',
                                     'Горы',
@@ -348,7 +348,7 @@ function Generation() {
                                                 border-color: #627430;
                                             }
                                         `}</style>
-                                        <span className="text-sm" style={{ color: '#2D2D2D' }}>{option}</span>
+                                        <span className="text-base font-['normal']" style={{ color: '#2D2D2D' }}>{option}</span>
                                     </label>
                                 ))}
                             </div>
@@ -359,7 +359,7 @@ function Generation() {
                 {/* Отдельная кнопка в своем контейнере */}
                 <div className="flex justify-end mt-6">
                     <div className="rounded-full px-8 py-4" style={{ backgroundColor: 'rgba(39, 46, 19, 0.2)' }}>
-                        <Button onClick={handleSubmit} className='text-xl '>Составить тур</Button>
+                        <Button onClick={handleSubmit} className="text-2xl font-['normal']">Составить тур</Button>
                     </div>
                 </div>
             </div>
