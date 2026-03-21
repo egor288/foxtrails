@@ -60,13 +60,13 @@ function Generation() {
     };
 
     return (
-        <div className="min-h-screen relative overflow-hidden" style={{ backgroundColor: '#4E543A' }}>
+        <div className="min-h-screen relative overflow-hidden" style={{ backgroundColor: '#89995D' }}>
             {/* Волнистый фон */}
             <svg className="absolute inset-0 w-full h-full" preserveAspectRatio="none" viewBox="0 0 1200 800">
                 <defs>
                     <linearGradient id="lineGradient" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="0%" stopColor="#758B39" stopOpacity="0.5" />
-                        <stop offset="100%" stopColor="#758B39" stopOpacity="0.3" />
+                        <stop offset="0%" stopColor="#627430" stopOpacity="0.5" />
+                        <stop offset="100%" stopColor="#627430" stopOpacity="0.3" />
                     </linearGradient>
                 </defs>
                 
@@ -83,14 +83,14 @@ function Generation() {
                 <path
                     d="M0,750 Q300,650 600,550 T1200,250"
                     fill="none"
-                    stroke="#758B39"
+                    stroke="#6f8040"
                     strokeWidth="24"
                     opacity="0.4"
                 />
             </svg>
             
-            <div className="max-w-6xl mx-auto px-6 min-h-screen flex flex-col justify-center relative z-10">
-                <div className="rounded-3xl p-8" style={{ backgroundColor: 'rgba(255, 255, 255, 0.3)' }}>
+            <div className="max-w-6xl mx-auto px-6 min-h-screen flex flex-col justify-center relative z-10 opacity-60">
+                <div className="rounded-3xl p-8" style={{ backgroundColor: 'rgba(255, 255, 255, 0.6)' }}>
                     {/* Основной контент - горизонтальная сетка */}
                     <div className=" grid grid-cols-3 gap-8 ">
                         {/* Левая колонка - Заголовок и способ передвижения */}
@@ -122,7 +122,7 @@ function Generation() {
                                                 onMouseEnter={(e) => {
                                                     if (accommodation.includes(option)) {
                                                         (e.target as HTMLInputElement).style.backgroundColor = '#FFFFFF';
-                                                        (e.target as HTMLInputElement).style.boxShadow = '0 0 0 2px #22C55E inset';
+                                                        (e.target as HTMLInputElement).style.boxShadow = '0 0 0 2px #627430 inset';
                                                     }
                                                 }}
                                                 onMouseLeave={(e) => {
@@ -131,7 +131,7 @@ function Generation() {
                                             />
                                             <style>{`
                                                 input[type="checkbox"]:checked::after {
-                                                    border-color: #22C55E;
+                                                    border-color: #627430;
                                                 }
                                             `}</style>
                                             <span style={{ color: '#2D2D2D' }}>{option}</span>
@@ -147,12 +147,12 @@ function Generation() {
                                 {/* Компания */}
                                 <div className="space-y-4">
                                     <h2 className="text-lg font-semibold" style={{ color: '#2D2D2D' }}>Какая компания будет?</h2>
-                                    <div className="animate-in fade-in slide-in-from-top-2 duration-300 mt-1 p-4 rounded-lg" style={{ backgroundColor: 'rgba(154, 154, 154, 0.5)' }}>
+                                    <div className="animate-in fade-in slide-in-from-top-2 duration-300 mt-1 p-4 rounded-lg" style={{ backgroundColor: 'rgba(39, 46, 19, 0.2)' }}>
                                         <div className="space-y-6">
                                             <div className="flex items-center justify-between">
                                                 <div>
                                                     <p className="font-semibold text-base leading-tight" style={{ color: '#2D2D2D' }}>Взрослые</p>
-                                                    <p className="text-sm leading-tight" style={{ color: '#5A5A5A' }}>12 лет и старше</p>
+                                                    <p className="text-sm leading-tight" style={{ color: '#4A4A4A' }}>12 лет и старше</p>
                                                 </div>
 
                                                 <div className="flex items-center gap-2">
@@ -165,8 +165,8 @@ function Generation() {
                                                                 : 'hover:opacity-80'
                                                         }`}
                                                         style={{
-                                                            backgroundColor: adultsCount <= 1 ? '#858585' : '#808080',
-                                                            color: adultsCount <= 1 ? '#7A7A7A' : '#2D2D2D'
+                                                            backgroundColor: adultsCount <= 1 ? 'rgba(39, 46, 19, 0.2)' : 'rgba(39, 46, 19, 0.6)',
+                                                            color: adultsCount <= 1 ? '#4A4A4A' : '#FFFFFF'
                                                         }}
                                                         aria-label="Уменьшить количество взрослых"
                                                     >
@@ -180,7 +180,7 @@ function Generation() {
                                                     <button
                                                         onClick={incrementAdults}
                                                         className="w-10 h-10 rounded-full font-bold text-xl leading-none transition-all duration-200 hover:opacity-80"
-                                                        style={{ backgroundColor: '#B5B5B5', color: '#2D2D2D' }}
+                                                        style={{ backgroundColor: 'rgba(39, 46, 19, 0.6)', color: '#FFFFFF' }}
                                                         aria-label="Увеличить количество взрослых"
                                                     >
                                                         +
@@ -191,7 +191,7 @@ function Generation() {
                                             <div className="flex items-center justify-between">
                                                 <div>
                                                     <p className="font-semibold text-base leading-tight" style={{ color: '#2D2D2D' }}>Дети</p>
-                                                    <p className="text-sm leading-tight" style={{ color: '#5A5A5A' }}>от 2 до 11 лет</p>
+                                                    <p className="text-sm leading-tight" style={{ color: '#4A4A4A' }}>от 2 до 11 лет</p>
                                                 </div>
 
                                                 <div className="flex items-center gap-2">
@@ -204,8 +204,8 @@ function Generation() {
                                                                 : 'hover:opacity-80'
                                                         }`}
                                                         style={{
-                                                            backgroundColor: childrenCount <= 0 ? '#858585' : '#808080',
-                                                            color: childrenCount <= 0 ? '#7A7A7A' : '#2D2D2D'
+                                                            backgroundColor: childrenCount <= 0 ? 'rgba(39, 46, 19, 0.2)' : 'rgba(39, 46, 19, 0.6)',
+                                                            color: childrenCount <= 0 ? '#4A4A4A' : '#FFFFFF'
                                                         }}
                                                         aria-label="Уменьшить количество детей"
                                                     >
@@ -219,7 +219,7 @@ function Generation() {
                                                     <button
                                                         onClick={incrementChildren}
                                                         className="w-10 h-10 rounded-full font-bold text-xl leading-none transition-all duration-200 hover:opacity-80"
-                                                        style={{ backgroundColor: '#B5B5B5', color: '#2D2D2D' }}
+                                                        style={{ backgroundColor: 'rgba(39, 46, 19, 0.6)', color: '#FFFFFF' }}
                                                         aria-label="Увеличить количество детей"
                                                     >
                                                         +
@@ -243,17 +243,17 @@ function Generation() {
                                             max="31"
                                             className="w-20 px-3 py-2 rounded-full focus:outline-none focus:ring-2 focus:ring-offset-0 transition-all duration-200"
                                             style={{
-                                                backgroundColor: '#B5B5B5',
-                                                color: '#2D2D2D',
+                                                backgroundColor: 'rgba(39, 46, 19, 0.6)',
+                                                color: '#FFFFFF',
                                                 borderWidth: '2px',
-                                                borderColor: '#9A9A9A'
+                                                borderColor: 'rgba(39, 46, 19, 0.6)'
                                             }}
                                             onFocus={(e) => {
-                                                e.target.style.borderColor = '#808080';
-                                                e.target.style.boxShadow = '0 0 0 2px rgba(179, 179, 179, 0.3)';
+                                                e.target.style.borderColor = '#627430';
+                                                e.target.style.boxShadow = '0 0 0 2px rgba(39, 46, 19, 0.3)';
                                             }}
                                             onBlur={(e) => {
-                                                e.target.style.borderColor = '#9A9A9A';
+                                                e.target.style.borderColor = 'rgba(39, 46, 19, 0.6)';
                                                 e.target.style.boxShadow = 'none';
                                             }}
                                         />
@@ -266,17 +266,17 @@ function Generation() {
                                             max="12"
                                             className="w-20 px-3 py-2 rounded-full focus:outline-none focus:ring-2 focus:ring-offset-0 transition-all duration-200"
                                             style={{
-                                                backgroundColor: '#B5B5B5',
-                                                color: '#2D2D2D',
+                                                backgroundColor: 'rgba(39, 46, 19, 0.6)',
+                                                color: '#FFFFFF',
                                                 borderWidth: '2px',
-                                                borderColor: '#9A9A9A'
+                                                borderColor: 'rgba(39, 46, 19, 0.6)'
                                             }}
                                             onFocus={(e) => {
-                                                e.target.style.borderColor = '#808080';
-                                                e.target.style.boxShadow = '0 0 0 2px rgba(179, 179, 179, 0.3)';
+                                                e.target.style.borderColor = '#627430';
+                                                e.target.style.boxShadow = '0 0 0 2px rgba(39, 46, 19, 0.3)';
                                             }}
                                             onBlur={(e) => {
-                                                e.target.style.borderColor = '#9A9A9A';
+                                                e.target.style.borderColor = 'rgba(39, 46, 19, 0.6)';
                                                 e.target.style.boxShadow = 'none';
                                             }}
                                         />
@@ -288,17 +288,17 @@ function Generation() {
                                             min={currentYear}
                                             className="w-20 px-3 py-2 rounded-full focus:outline-none focus:ring-2 focus:ring-offset-0 transition-all duration-200"
                                             style={{
-                                                backgroundColor: '#B5B5B5',
-                                                color: '#2D2D2D',
+                                                backgroundColor: 'rgba(39, 46, 19, 0.6)',
+                                                color: '#FFFFFF',
                                                 borderWidth: '2px',
-                                                borderColor: '#9A9A9A'
+                                                borderColor: 'rgba(39, 46, 19, 0.6)'
                                             }}
                                             onFocus={(e) => {
-                                                e.target.style.borderColor = '#808080';
-                                                e.target.style.boxShadow = '0 0 0 2px rgba(179, 179, 179, 0.3)';
+                                                e.target.style.borderColor = '#627430';
+                                                e.target.style.boxShadow = '0 0 0 2px rgba(39, 46, 19, 0.3)';
                                             }}
                                             onBlur={(e) => {
-                                                e.target.style.borderColor = '#9A9A9A';
+                                                e.target.style.borderColor = 'rgba(39, 46, 19, 0.6)';
                                                 e.target.style.boxShadow = 'none';
                                             }}
                                         />
@@ -336,7 +336,7 @@ function Generation() {
                                             onMouseEnter={(e) => {
                                                 if (preferences.includes(option)) {
                                                     (e.target as HTMLInputElement).style.backgroundColor = '#FFFFFF';
-                                                    (e.target as HTMLInputElement).style.boxShadow = '0 0 0 2px #22C55E inset';
+                                                    (e.target as HTMLInputElement).style.boxShadow = '0 0 0 2px #627430 inset';
                                                 }
                                             }}
                                             onMouseLeave={(e) => {
@@ -345,7 +345,7 @@ function Generation() {
                                         />
                                         <style>{`
                                             input[type="checkbox"]:checked::after {
-                                                border-color: #22C55E;
+                                                border-color: #627430;
                                             }
                                         `}</style>
                                         <span className="text-sm" style={{ color: '#2D2D2D' }}>{option}</span>
@@ -358,7 +358,7 @@ function Generation() {
 
                 {/* Отдельная кнопка в своем контейнере */}
                 <div className="flex justify-end mt-6">
-                    <div className="rounded-full px-8 py-4" style={{ backgroundColor: 'rgba(184, 184, 184, 0.5)' }}>
+                    <div className="rounded-full px-8 py-4" style={{ backgroundColor: 'rgba(39, 46, 19, 0.2)' }}>
                         <Button onClick={handleSubmit} className='text-xl '>Составить тур</Button>
                     </div>
                 </div>
