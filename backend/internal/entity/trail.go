@@ -19,3 +19,12 @@ type User struct {
 	Email    string `json:"email"`
 	Password string `json:"-"`
 }
+
+type Place struct {
+	ID          int      `json:"id"`
+	Name        string   `json:"name"`
+	Description string   `json:"description"`
+	Lat         float64  `json:"lat"`
+	Lon         float64  `json:"lon"`
+	Tags        []string `json:"tags"`
+}
