@@ -4,7 +4,7 @@ import type { Tour } from '../types/tour';
 export const tours: Tour[] = [
   {
     id: 1,
-    title: "Гастрономический тур",
+    title: "Гастрономический маршрут",
     description: "Гастрономическое путешествие по лучшим ресторанам",
     image: "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=500&h=400&fit=crop",
     fullDescription: "Посетите 5 лучших ресторанов города, примите участие в мастер-классах от шеф-поваров и насладитесь авторской кухней.",
@@ -15,7 +15,7 @@ export const tours: Tour[] = [
   {
     id: 2,
     title: "Винный тур",
-    description: "Винный тур по лучшим винодельням",
+    description: "Маршрут по лучшим винодельням",
     image: "https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=500&h=400&fit=crop",
     fullDescription: "Дегустация лучших вин, экскурсии по виноградникам, общение с виноделами.",
     price: "45 000 ₽",
@@ -24,7 +24,7 @@ export const tours: Tour[] = [
   },
   {
     id: 3,
-    title: "Горный тур",
+    title: "Горный маршрут",
     description: "Экстремальный тур по горам",
     image: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=500&h=400&fit=crop",
     fullDescription: "Походы в горы, скалолазание, рафтинг и другие приключения.",

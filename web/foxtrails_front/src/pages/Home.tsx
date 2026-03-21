@@ -21,17 +21,18 @@ function Home(){
                 className="relative min-h-screen bg-cover bg-center flex items-end justify-start"
                 style={{ backgroundImage: `url(${bg})` }}>
                 <div className="font-['title'] text-7xl text-white m-12 py-18">
-                    <h1>Экономьте</h1>
-                    <h1>ваше время и нервы</h1>
+                    <h1>Туда, </h1>
+                    <h1>где вас ждут </h1>
+                    <h1>впечатления</h1>
                     <div className="font-['normal'] text-4xl text-white py-10">
-                        <p>Мы подберем</p>
-                        <p>подходящие вам туры</p>
+                        <p>Мы найдем маршрут, </p>
+                        <p>который подходит вам по всем параметрам</p>
                     </div>
                     <Button
                         onClick={handleClick}
                         className="bg-[#373e1e]  rounded-full font-['normal'] text-5xl hover:opacity-80 transition"
                     >
-                        Создать тур
+                        Создать маршрут
                     </Button>
                 </div>
             </div>
@@ -52,7 +53,7 @@ function Home(){
                     className="flex flex-col items-center gap-2"
                 >
                     <span className="text-white font-['normal'] text-lg hover:text-gray-300 transition">
-                        Наши готовые туры
+                        Наши готовые маршруты
                     </span>
                     <div className="bounce-arrow">
                         <svg
