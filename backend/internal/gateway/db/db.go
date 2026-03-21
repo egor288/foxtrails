@@ -1,31 +1,26 @@
 package db
 
 import (
-	"context"
+	"database/sql"
 	"fmt"
 	"os"
 
-	"github.com/jackc/pgx/v5/pgxpool"
+	_ "github.com/lib/pq"
 )
 
-type DB struct {
-	Pool *pgxpool.Pool
-}
-
-func New() (*DB, error) {
-
+func New() (*sql.DB, error) {
 	dsn := os.Getenv("DATABASE_URL")
 
-	pool, err := pgxpool.New(context.Background(), dsn)
+	db, err := sql.Open("postgres", dsn)
 	if err != nil {
 		return nil, err
 	}
 
-	if err := pool.Ping(context.Background()); err != nil {
+	if err := db.Ping(); err != nil {
 		return nil, err
 	}
 
 	fmt.Println("✅ Postgres connected")
 
-	return &DB{Pool: pool}, nil
+	return db, nil
 }

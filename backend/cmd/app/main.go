@@ -1,12 +1,7 @@
 package main
 
 import (
-	"context"
 	"log"
-	"os"
-	"os/signal"
-	"syscall"
-	"time"
 
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
@@ -25,7 +20,7 @@ func main() {
 
 	dbConn, err := db.New()
 	if err != nil {
-		log.Fatal("failed to connect db:", err)
+		log.Fatal(err)
 	}
 
 	svc := service.NewService(dbConn)
@@ -39,26 +34,5 @@ func main() {
 	e.GET("/api/health", handler.Health)
 	e.POST("/api/routes/generate", handler.GenerateRoute)
 
-	go func() {
-		if err := e.Start(":8080"); err != nil {
-			log.Println("server stopped:", err)
-		}
-	}()
-
-	log.Println("🚀 server started on :8080")
-
-	quit := make(chan os.Signal, 1)
-	signal.Notify(quit, os.Interrupt, syscall.SIGTERM)
-	<-quit
-
-	log.Println("shutting down server...")
-
-	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
-	defer cancel()
-
-	if err := e.Shutdown(ctx); err != nil {
-		log.Fatal("server shutdown failed:", err)
-	}
-
-	log.Println("server exited properly")
+	e.Logger.Fatal(e.Start(":8080"))
 }

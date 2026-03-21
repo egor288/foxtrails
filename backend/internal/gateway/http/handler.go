@@ -25,7 +25,6 @@ func (h *Handler) Health(c echo.Context) error {
 
 // generate route
 func (h *Handler) GenerateRoute(c echo.Context) error {
-
 	var req struct {
 		Lat  float64  `json:"lat"`
 		Lon  float64  `json:"lon"`
@@ -33,17 +32,27 @@ func (h *Handler) GenerateRoute(c echo.Context) error {
 	}
 
 	if err := c.Bind(&req); err != nil {
-		return c.JSON(http.StatusBadRequest, map[string]string{
-			"error": "bad request",
-		})
+		return c.JSON(400, map[string]string{"error": "bad request"})
 	}
 
 	route, err := h.svc.GenerateRoute(c.Request().Context(), req.Lat, req.Lon, req.Tags)
 	if err != nil {
-		return c.JSON(500, map[string]string{
-			"error": err.Error(),
+		return c.JSON(500, map[string]string{"error": err.Error()})
+	}
+
+	var result []map[string]interface{}
+
+	for i, p := range route {
+		result = append(result, map[string]interface{}{
+			"id":    p.ID,
+			"name":  p.Name,
+			"lat":   p.Lat,
+			"lon":   p.Lon,
+			"order": i,
 		})
 	}
 
-	return c.JSON(http.StatusOK, route)
+	return c.JSON(200, map[string]interface{}{
+		"places": result,
+	})
 }
