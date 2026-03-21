@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '../components/button';
 
-// Список городов
 const cities = [
   "Краснодар",
   "Абрау-Дюрсо",
@@ -42,26 +41,19 @@ function Generation() {
     const numValue = parseInt(value) || 0;
     const monthNum = parseInt(dates.month) || 0;
     const maxDays = monthNum > 0 && monthNum <= 12 ? daysInMonth[monthNum - 1] : 31;
-    
-    if (numValue < 0 || (value && numValue > maxDays)) {
-      return;
-    }
+    if (numValue < 0 || (value && numValue > maxDays)) return;
     setDates({ ...dates, day: value });
   };
 
   const handleMonthChange = (value: string) => {
     const numValue = parseInt(value) || 0;
-    if (numValue < 0 || numValue > 12) {
-      return;
-    }
+    if (numValue < 0 || numValue > 12) return;
     setDates({ ...dates, month: value });
   };
 
   const handleYearChange = (value: string) => {
     const numValue = parseInt(value) || 0;
-    if (numValue < 0 || (value && numValue < currentYear)) {
-      return;
-    }
+    if (numValue < 0 || (value && numValue < currentYear)) return;
     setDates({ ...dates, year: value });
   };
 
@@ -73,8 +65,10 @@ function Generation() {
       preferences,
       dates
     };
-    console.log('Данные формы:', formData);
-    // Переход на страницу TourDetails с передачей данных через state
+
+    // Здесь вы можете добавить отправку данных на сервер
+    // Например, через fetch или axios
+
     navigate('/TourDetails', { state: { formData } });
   };
 
