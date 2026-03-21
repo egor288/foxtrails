@@ -89,10 +89,10 @@ function Generation() {
                 />
             </svg>
             
-            <div className="max-w-6xl mx-auto px-6 py-16 relative z-10">
-                <div className="rounded-3xl p-8" style={{ backgroundColor: 'rgba(255, 255, 255, 0.6)' }}>
+            <div className="max-w-6xl mx-auto px-6 min-h-screen flex flex-col justify-center relative z-10">
+                <div className="rounded-3xl p-8" style={{ backgroundColor: 'rgba(255, 255, 255, 0.3)' }}>
                     {/* Основной контент - горизонтальная сетка */}
-                    <div className="grid grid-cols-3 gap-8">
+                    <div className=" grid grid-cols-3 gap-8 ">
                         {/* Левая колонка - Заголовок и способ передвижения */}
                         <div className="rounded-2xl p-6" style={{ backgroundColor: 'rgba(39, 46, 19, 0.2)' }}>
                             <div className="text-center mb-6">
@@ -111,7 +111,10 @@ function Generation() {
                                                 type="checkbox"
                                                 checked={accommodation.includes(option)}
                                                 onChange={() => toggleCheckbox(option, accommodation, setAccommodation)}
-                                                className="relative w-5 h-5 appearance-none rounded-md border-2 checked:border-white focus:outline-none focus:ring-2 focus:ring-offset-0 after:content-[''] after:absolute after:left-1/2 after:top-1/2 after:w-2 after:h-1 after:border-b-2 after:border-r-2 after:transform after:-translate-x-1/2 after:-translate-y-1/2 after:rotate-45 after:opacity-0 checked:after:opacity-100 after:pointer-events-none"
+                                                className="relative w-5 h-5 appearance-none rounded-md border-2 checked:border-white 
+                                                focus:outline-none focus:ring-2 focus:ring-offset-0 after:content-[''] after:absolute after:left-1/2 
+                                                after:top-1/2 after:w-2 after:h-1 after:border-b-2 after:border-r-2 after:transform after:-translate-x-1/2 
+                                                after:-translate-y-1/2 after:rotate-45 after:opacity-0 checked:after:opacity-100 after:pointer-events-none"
                                                 style={{
                                                     backgroundColor: '#FFFFFF',
                                                     borderColor: '#FFFFFF'
@@ -322,7 +325,10 @@ function Generation() {
                                             type="checkbox"
                                             checked={preferences.includes(option)}
                                             onChange={() => toggleCheckbox(option, preferences, setPreferences)}
-                                            className="relative w-5 h-5 appearance-none rounded-md border-2 checked:border-white focus:outline-none focus:ring-2 focus:ring-offset-0 after:content-[''] after:absolute after:left-1/2 after:top-1/2 after:w-2 after:h-1 after:border-b-2 after:border-r-2 after:transform after:-translate-x-1/2 after:-translate-y-1/2 after:rotate-45 after:opacity-0 checked:after:opacity-100 after:pointer-events-none"
+                                            className="relative w-5 h-5 appearance-none rounded-md border-2 checked:border-white 
+                                            focus:outline-none focus:ring-2 focus:ring-offset-0 after:content-[''] after:absolute after:left-1/2 
+                                            after:top-1/2 after:w-2 after:h-1 after:border-b-2 after:border-r-2 after:transform after:-translate-x-1/2 
+                                            after:-translate-y-1/2 after:rotate-45 after:opacity-0 checked:after:opacity-100 after:pointer-events-none"
                                             style={{
                                                 backgroundColor: '#FFFFFF',
                                                 borderColor: '#FFFFFF'
@@ -353,7 +359,7 @@ function Generation() {
                 {/* Отдельная кнопка в своем контейнере */}
                 <div className="flex justify-end mt-6">
                     <div className="rounded-full px-8 py-4" style={{ backgroundColor: 'rgba(184, 184, 184, 0.5)' }}>
-                        <Button onClick={handleSubmit}>Составить тур</Button>
+                        <Button onClick={handleSubmit} className='text-xl '>Составить тур</Button>
                     </div>
                 </div>
             </div>
