@@ -1,25 +1,38 @@
 package main
 
 import (
-	"github.com/labstack/echo/v4"
+	"log"
 
-	api "github.com/egor288/foxtrails/internal/gateway/http"
-	httpHandler "github.com/egor288/foxtrails/internal/gateway/http"
-	"github.com/egor288/foxtrails/internal/usecase"
+	"github.com/labstack/echo/v4"
+	"github.com/labstack/echo/v4/middleware"
+
+	"foxtrails/internal/gateway/db"
+	"foxtrails/internal/gateway/http"
+	"foxtrails/internal/service"
 )
 
 func main() {
-
 	e := echo.New()
 
-	// usecase
-	routeUC := usecase.NewRouteUsecase()
+	e.Use(middleware.Logger())
+	e.Use(middleware.Recover())
+	e.Use(middleware.CORS())
 
-	// handler
-	handler := httpHandler.NewHandler(routeUC)
+	dbConn, err := db.New()
+	if err != nil {
+		log.Fatal(err)
+	}
 
-	// регистрация swagger-generated интерфейса
-	api.RegisterHandlers(e, handler)
+	svc := service.NewService(dbConn)
+
+	handler := http.NewHandler(svc)
+	authHandler := http.NewAuthHandler(dbConn)
+
+	e.POST("/api/auth/register", authHandler.Register)
+	e.POST("/api/auth/login", authHandler.Login)
+
+	e.GET("/api/health", handler.Health)
+	e.POST("/api/routes/generate", handler.GenerateRoute)
 
 	e.Logger.Fatal(e.Start(":8080"))
 }
