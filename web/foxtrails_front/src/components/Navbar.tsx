@@ -8,14 +8,15 @@ function Navbar() {
             {!isLoggedIn && (
                 <div className="absolute right-6 top-1/2 -translate-y-1/2 flex items-center gap-4">
                     <Link to="/signUp" style={{ backgroundColor: '#373e1e' }} 
-                    className = "font-['normal'] px-4 py-2 text-white rounded-full hover:opacity-80 transition">Sign Up</Link>
+                    className = "font-['normal'] px-4 py-2 text-white rounded-full hover:opacity-80 transition">Регистрация</Link>
                     <Link to="/signIn" style={{ backgroundColor: '#373e1e' }}
-                    className = "font-['normal'] px-4 py-2 text-white rounded-full hover:opacity-80 transition">Sign In</Link>
+                    className = "font-['normal'] px-4 py-2 text-white rounded-full hover:opacity-80 transition">Вход</Link>
                 </div>
             )}
             {isLoggedIn && (
                 <div className="absolute right-6 top-1/2 -translate-y-1/2 flex items-center gap-4">
-                    <Link to="/profile">Profile</Link>
+                    <Link to="/profile" style={{ backgroundColor: '#373e1e' }}
+                    className = "font-['normal'] px-4 py-2 text-white rounded-full hover:opacity-80 transition">Профиль</Link>
                 </div>
             )}
         </nav>
