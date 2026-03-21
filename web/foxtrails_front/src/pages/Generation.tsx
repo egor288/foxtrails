@@ -103,7 +103,7 @@ function Generation() {
                             </div>
 
                             <div className="space-y-4">
-                                <h2 className="text-lg font-semibold" style={{ color: '#2D2D2D' }}>Предпочтения по желанию</h2>
+                                <h2 className="text-lg font-semibold" style={{ color: '#2D2D2D' }}>Условия проживания</h2>
                                 <div className="space-y-3">
                                     {['Отель/гостиница', 'Квартира/апартаменты', 'Дом'].map(option => (
                                         <label key={option} className="flex items-center space-x-3 cursor-pointer">

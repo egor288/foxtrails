@@ -1,157 +1,108 @@
-import { useEffect, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import { TourList } from '../components/tourList';
+import type { Tour as TourType } from '../types/tour';
 import { Button } from '../components/button';
 
-type Tour = {
-    id: number;
-    title: string;
-    description: string;
-    image: string;
-};
-
 function Travels() {
-    const [tours, setTours] = useState<Tour[]>([]);
-    const [editingId, setEditingId] = useState<number | null>(null);
-    const [newTitle, setNewTitle] = useState('');
+    const location = useLocation();
+    const navigate = useNavigate();
 
-    // поля создания
-    const [title, setTitle] = useState('');
-    const [description, setDescription] = useState('');
-    const [image, setImage] = useState('');
+    const generatedTour = location.state as TourType | null;
+    const [savedTours, setSavedTours] = useState<TourType[]>([]);
 
-    useEffect(() => {
-        setTours([]);
-    }, []);
+    const saveTour = () => {
+        if (!generatedTour) return;
 
-    const addTour = () => {
-        if (!title.trim()) return;
-
-        const newTour: Tour = {
-            id: Date.now(),
-            title,
-            description,
-            image: image || 'https://picsum.photos/400/200'
-        };
-
-        setTours(prev => [newTour, ...prev]);
-
-        // очистка
-        setTitle('');
-        setDescription('');
-        setImage('');
-
-        // API POST сюда
+        setSavedTours(prev => [generatedTour, ...prev]);
+        navigate('/travels', { replace: true });
     };
 
-    const deleteTour = (id: number) => {
-        setTours(prev => prev.filter(t => t.id !== id));
-    };
-
-    const moveTour = (index: number, direction: 'up' | 'down') => {
-        const newTours = [...tours];
-        const targetIndex = direction === 'up' ? index - 1 : index + 1;
-
-        if (targetIndex < 0 || targetIndex >= tours.length) return;
-
-        [newTours[index], newTours[targetIndex]] = [newTours[targetIndex], newTours[index]];
-        setTours(newTours);
-    };
-
-    const startEdit = (tour: Tour) => {
-        setEditingId(tour.id);
-        setNewTitle(tour.title);
-    };
-
-    const saveEdit = (id: number) => {
-        setTours(prev =>
-            prev.map(t => (t.id === id ? { ...t, title: newTitle } : t))
-        );
-        setEditingId(null);
+    const rejectTour = () => {
+        navigate('/travels', { replace: true });
     };
 
     return (
         <div className="min-h-screen relative overflow-hidden" style={{ backgroundColor: '#89995D' }}>
-            <svg className="absolute inset-0 w-full h-full" viewBox="0 0 1200 800">
-                <path d="M0,400 Q150,350 300,380 T1200,400" fill="none" stroke="#627430" strokeWidth="24" opacity="0.3"/>
-                <path d="M0,750 Q300,650 600,550 T1200,250" fill="none" stroke="#6f8040" strokeWidth="24" opacity="0.3"/>
+            
+            {/* Декоративный фон */}
+            <svg className="absolute inset-0 w-full h-full" preserveAspectRatio="none" viewBox="0 0 1200 800">
+                <defs>
+                    <linearGradient id="lineGradient" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stopColor="#4f5d28" stopOpacity="0.55" />
+                        <stop offset="100%" stopColor="#4f5d28" stopOpacity="0.25" />
+                    </linearGradient>
+                </defs>
+
+                <path
+                    d="M0,100 C180,20 260,130 420,130 C580,130 700,40 920,80 C1060,105 1120,150 1200,130"
+                    fill="none"
+                    stroke="url(#lineGradient)"
+                    strokeWidth="6"
+                    opacity="0.9"
+                />
+                <path
+                    d="M20,0 C70,120 90,290 180,390 C280,500 420,560 560,610 C760,680 900,690 1200,760"
+                    fill="none"
+                    stroke="#3f4a21"
+                    strokeWidth="3"
+                    opacity="0.65"
+                />
+                <path
+                    d="M0,640 C240,520 360,450 520,430 C720,405 940,430 1200,360"
+                    fill="none"
+                    stroke="#3f4a21"
+                    strokeWidth="3"
+                    opacity="0.65"
+                />
             </svg>
 
-            <div className="max-w-6xl mx-auto px-6 py-12 relative z-10">
-                <div className="rounded-3xl p-8" style={{ backgroundColor: 'rgba(255,255,255,0.2)' }}>
+            <div className="relative z-10 max-w-7xl mx-auto px-6 py-10">
 
-                    <h1 className="text-3xl font-bold mb-6 text-center">Мои маршруты</h1>
+                <h1 className="text-4xl font-bold text-white mb-10">
+                    Ваши маршруты
+                </h1>
 
-                    {/* 🟢 ФОРМА СОЗДАНИЯ */}
-                    <div className="rounded-2xl p-6 mb-8 flex flex-col gap-4"
-                         style={{ backgroundColor: 'rgba(39, 46, 19, 0.2)' }}>
+                {/* ПРЕДПРОСМОТР СГЕНЕРЕННОГО ТУРА */}
+                {generatedTour && (
+                    <div className="mb-10 p-6 rounded-3xl bg-white/70 backdrop-blur-md max-w-xl">
+                        
+                        <h2 className="text-2xl font-bold mb-4">
+                            Новый сгенерированный маршрут
+                        </h2>
 
-                        <h2 className="text-xl font-semibold">Добавить маршрут</h2>
-
-                        <input
-                            placeholder="Название"
-                            value={title}
-                            onChange={(e) => setTitle(e.target.value)}
-                            className="px-4 py-2 rounded-full"
+                        <img
+                            src={generatedTour.image}
+                            className="rounded-xl h-64 w-full object-cover mb-4"
                         />
 
-                        <textarea
-                            placeholder="Описание"
-                            value={description}
-                            onChange={(e) => setDescription(e.target.value)}
-                            className="px-4 py-2 rounded-2xl resize-none"
-                        />
+                        <h3 className="text-xl font-semibold mb-2">
+                            {generatedTour.title}
+                        </h3>
 
-                        <input
-                            placeholder="Ссылка на изображение"
-                            value={image}
-                            onChange={(e) => setImage(e.target.value)}
-                            className="px-4 py-2 rounded-full"
-                        />
+                        <p className="text-gray-700 mb-4">
+                            {generatedTour.fullDescription}
+                        </p>
 
-                        <div className="flex justify-end">
-                            <Button onClick={addTour}>Добавить</Button>
+                        <div className="flex gap-3">
+                            <Button onClick={saveTour}>
+                                Сохранить
+                            </Button>
+                            <Button onClick={rejectTour}>
+                                Не сохранять
+                            </Button>
                         </div>
                     </div>
+                )}
 
-                    {/* список */}
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        {tours.map((tour, index) => (
-                            <div key={tour.id}
-                                 className="rounded-2xl p-4 flex flex-col gap-4"
-                                 style={{ backgroundColor: 'rgba(39, 46, 19, 0.2)' }}>
+                {/* СОХРАНЕННЫЕ ТУРЫ */}
+                <TourList tours={savedTours} />
 
-                                <img src={tour.image} className="h-40 w-full object-cover rounded-xl"/>
-
-                                {editingId === tour.id ? (
-                                    <div className="flex gap-2">
-                                        <input
-                                            value={newTitle}
-                                            onChange={(e) => setNewTitle(e.target.value)}
-                                            className="flex-1 px-3 py-2 rounded-full"
-                                        />
-                                        <Button onClick={() => saveEdit(tour.id)}>OK</Button>
-                                    </div>
-                                ) : (
-                                    <h2 className="text-xl font-semibold">{tour.title}</h2>
-                                )}
-
-                                <p>{tour.description}</p>
-
-                                <div className="flex flex-wrap gap-2 mt-auto">
-                                    <Button onClick={() => startEdit(tour)}>Переименовать</Button>
-                                    <Button onClick={() => deleteTour(tour.id)}>Удалить</Button>
-                                    <Button onClick={() => moveTour(index, 'up')}>↑</Button>
-                                    <Button onClick={() => moveTour(index, 'down')}>↓</Button>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-
-                    {tours.length === 0 && (
-                        <p className="text-center mt-6 px-4 py-2 rounded-full" style={{ backgroundColor: 'rgba(39, 46, 19, 0.2)' }}>
-                            Маршрутов пока нет
-                        </p>
-                    )}
-                </div>
+                {savedTours.length === 0 && !generatedTour && (
+                    <p className="text-white mt-6">
+                        У тебя пока нет сохранённых маршрутов
+                    </p>
+                )}
             </div>
         </div>
     );
