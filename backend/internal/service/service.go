@@ -28,12 +28,27 @@ func NewService(db *sql.DB) *Service {
 func (s *Service) GenerateRoute(ctx context.Context, lat, lon float64, tags []string) ([]Place, error) {
 
 	rows, err := s.db.QueryContext(ctx, `
-		SELECT DISTINCT p.id, p.name, p.lat, p.lon
+		SELECT 
+			p.id, 
+			p.name, 
+			p.lat, 
+			p.lon,
+			COUNT(t.id) as match_count,
+			(
+				6371 * acos(
+					cos(radians($1)) * cos(radians(p.lat)) *
+					cos(radians(p.lon) - radians($2)) +
+					sin(radians($1)) * sin(radians(p.lat))
+				)
+			) AS distance
 		FROM places p
 		JOIN place_tags pt ON pt.place_id = p.id
 		JOIN tags t ON t.id = pt.tag_id
-		WHERE t.name = ANY($1)
-	`, pqArray(tags)) // 👈 см. ниже функцию
+		WHERE t.name = ANY($3)
+		GROUP BY p.id
+		ORDER BY match_count DESC, distance ASC
+		LIMIT 20
+	`, lat, lon, pqArray(tags))
 
 	if err != nil {
 		return nil, err
@@ -44,9 +59,13 @@ func (s *Service) GenerateRoute(ctx context.Context, lat, lon float64, tags []st
 
 	for rows.Next() {
 		var p Place
-		if err := rows.Scan(&p.ID, &p.Name, &p.Lat, &p.Lon); err != nil {
+		var matchCount int
+		var distance float64
+
+		if err := rows.Scan(&p.ID, &p.Name, &p.Lat, &p.Lon, &matchCount, &distance); err != nil {
 			continue
 		}
+
 		places = append(places, p)
 	}
 
@@ -54,20 +73,16 @@ func (s *Service) GenerateRoute(ctx context.Context, lat, lon float64, tags []st
 		return []Place{}, nil
 	}
 
-	// сортировка по расстоянию от пользователя
-	sortPlaces(lat, lon, places)
-
-	// ограничим
-	if len(places) > 10 {
-		places = places[:10]
-	}
-
-	// строим маршрут
+	// 🔥 теперь только строим маршрут (без сортировки)
 	route := buildRoute(lat, lon, places)
+
+	// ограничим до 10
+	if len(route) > 10 {
+		route = route[:10]
+	}
 
 	return route, nil
 }
-
 func sortPlaces(lat, lon float64, places []Place) {
 	for i := 0; i < len(places); i++ {
 		for j := i + 1; j < len(places); j++ {
