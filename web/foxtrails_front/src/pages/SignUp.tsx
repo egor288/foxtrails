@@ -1,3 +1,4 @@
+import { api } from "../shared/api";
 import React, { useState } from "react";
 import { Button } from "../components/button";
 
@@ -8,6 +9,17 @@ function SignUp() {
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         console.log("Sign un:", { email, password });
+    };
+
+    const handleRegister = async () => {
+        try {
+            const res = await api.register(email, password);
+            console.log("REGISTER:", res);
+            alert("Регистрация успешна");
+        } catch (err) {
+            console.error(err);
+            alert("Ошибка регистрации");
+        }
     };
 
     return (
@@ -62,7 +74,7 @@ function SignUp() {
                                     style={{ backgroundColor: "rgba(39, 46, 19, 0.6)", color: "#FFFFFF", border: "2px solid rgba(39, 46, 19, 0.6)" }}
                                 />
                             </div>
-                            <Button className="bg-[#373e1e] opacity-80 w-full text-2xl font-['normal'] text-black">Регистрация</Button>
+                            <Button className="bg-[#373e1e] opacity-80 w-full text-2xl font-['normal'] text-black" onClick={handleRegister}>Регистрация</Button>
                         </form>
                     </div>
                 </div>

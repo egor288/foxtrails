@@ -1,3 +1,4 @@
+import { api } from "../shared/api";
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '../components/button';
@@ -57,20 +58,37 @@ function Generation() {
     setDates({ ...dates, year: value });
   };
 
-  const handleSubmit = () => {
+const handleSubmit = async () => {
+  try {
     const formData = {
       city: selectedCity,
       accommodation,
-      company: { adults: adultsCount, children: childrenCount },
+      company: {
+        adults: adultsCount,
+        children: childrenCount,
+      },
       preferences,
-      dates
+      dates,
     };
 
-    // Здесь вы можете добавить отправку данных на сервер
-    // Например, через fetch или axios
+    console.log("FORM DATA:", formData);
 
-    navigate('/TourDetails', { state: { formData } });
-  };
+    // 🔥 теперь через api
+    const data = await api.generateRoute(formData);
+
+    console.log("RESPONSE:", data);
+
+    navigate("/TourDetails", {
+      state: {
+        route: data.places,
+        formData,
+      },
+    });
+
+  } catch (err) {
+    console.error("ERROR:", err);
+  }
+};
 
   return (
     <div className="min-h-screen relative overflow-hidden" style={{ backgroundColor: '#89995D' }}>

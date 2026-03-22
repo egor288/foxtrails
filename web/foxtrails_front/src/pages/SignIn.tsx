@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import { api } from "../shared/api";
+import { useState } from "react";
 import { Button } from "../components/button";
 
 function SignIn() {
@@ -8,6 +9,17 @@ function SignIn() {
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         console.log("Sign in:", { email, password });
+    };
+
+    const handleLogin = async () => {
+        try {
+            const res = await api.login(email, password);
+            console.log("LOGIN:", res);
+            alert("Успешный вход");
+        } catch (err) {
+            console.error(err);
+            alert("Ошибка логина");
+        }
     };
 
     return (
@@ -62,7 +74,7 @@ function SignIn() {
                                     style={{ backgroundColor: "rgba(39, 46, 19, 0.6)", color: "#FFFFFF", border: "2px solid rgba(39, 46, 19, 0.6)" }}
                                 />
                             </div>
-                            <Button className="bg-[#373e1e] opacity-80 w-full text-2xl font-['normal'] text-black">Вход</Button>
+                            <Button className="bg-[#373e1e] opacity-80 w-full text-2xl font-['normal'] text-black" onClick={handleLogin}>Вход</Button>
                         </form>
                     </div>
                 </div>
