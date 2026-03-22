@@ -32,7 +32,7 @@ function Home(){
                     </div>
                     <Button
                         onClick={handleClick}
-                        className="bg-[#373e1e]  rounded-full text-white font-normal text-5xl hover:opacity-80 transition"
+                        className="bg-[#89995D]  rounded-full text-white font-normal text-4xl hover:opacity-80 transition"
                     >
                         Создать маршрут
                     </Button>
