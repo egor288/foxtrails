@@ -12,6 +12,21 @@ type Handler struct {
 	svc *service.Service
 }
 
+type GenerateRouteRequest struct {
+	City          string   `json:"city"`
+	Accommodation []string `json:"accommodation"`
+	Company       struct {
+		Adults   int `json:"adults"`
+		Children int `json:"children"`
+	} `json:"company"`
+	Preferences []string `json:"preferences"`
+	Dates       struct {
+		Day   string `json:"day"`
+		Month string `json:"month"`
+		Year  string `json:"year"`
+	} `json:"dates"`
+}
+
 func NewHandler(svc *service.Service) *Handler {
 	return &Handler{svc: svc}
 }
@@ -23,36 +38,46 @@ func (h *Handler) Health(c echo.Context) error {
 	})
 }
 
-// generate route
-func (h *Handler) GenerateRoute(c echo.Context) error {
-	var req struct {
-		Lat  float64  `json:"lat"`
-		Lon  float64  `json:"lon"`
-		Tags []string `json:"tags"`
+func getCityCoords(city string) (float64, float64) {
+	switch city {
+	case "Сочи":
+		return 43.5855, 39.7231
+	case "Краснодар":
+		return 45.0355, 38.9753
+	default:
+		return 45.0355, 38.9753 // fallback
 	}
+}
+
+func (h *Handler) GenerateRoute(c echo.Context) error {
+	var req GenerateRouteRequest
 
 	if err := c.Bind(&req); err != nil {
-		return c.JSON(400, map[string]string{"error": "bad request"})
+		return c.JSON(400, map[string]string{"error": "invalid request"})
 	}
 
-	route, err := h.svc.GenerateRoute(c.Request().Context(), req.Lat, req.Lon, req.Tags)
+	// 🔥 мапим city → координаты
+	lat, lon := getCityCoords(req.City)
+
+	// 🔥 формируем теги
+	tags := req.Preferences
+
+	if req.Company.Children > 0 {
+		tags = append(tags, "family")
+	}
+
+	places, err := h.svc.GenerateRoute(
+		c.Request().Context(),
+		lat,
+		lon,
+		tags,
+	)
+
 	if err != nil {
 		return c.JSON(500, map[string]string{"error": err.Error()})
 	}
 
-	var result []map[string]interface{}
-
-	for i, p := range route {
-		result = append(result, map[string]interface{}{
-			"id":    p.ID,
-			"name":  p.Name,
-			"lat":   p.Lat,
-			"lon":   p.Lon,
-			"order": i,
-		})
-	}
-
 	return c.JSON(200, map[string]interface{}{
-		"places": result,
+		"places": places,
 	})
 }
