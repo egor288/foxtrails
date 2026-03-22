@@ -9,3 +9,13 @@ export default {
   },
   plugins: [],
 }
+module.exports = {
+  theme: {
+    extend: {
+      fontFamily: {
+        'title': ['title', 'sans-serif'], 
+        'normal': ['normal', 'sans-serif'],
+      },
+    },
+  },
+}

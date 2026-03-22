@@ -49,12 +49,12 @@ function SignIn() {
             <div className="max-w-xl min-h-screen grid place-items-center mx-auto px-6 py-16 relative z-10">
                 <div className="w-full rounded-3xl p-8 opacity-60" style={{ backgroundColor: "rgba(255, 255, 255, 0.6)" }}>
                     <div className="w-full">
-                        <h1 className="text-center mb-8 font-['title'] text-3xl" style={{ color: "#2D2D2D" }}>Введите свои учетные данные</h1>
+                        <h1 className="text-center mb-8 font-title text-3xl" style={{ color: "#2D2D2D" }}>Введите свои учетные данные</h1>
 
 
                         <form onSubmit={handleSubmit} className="space-y-4">
                             <div>
-                                <label className="block text-left mb-2 font-['normal'] text-xl" style={{ color: "#2D2D2D" }}>Почта</label>
+                                <label className="block text-left mb-2 font-normal text-xl" style={{ color: "#2D2D2D" }}>Почта</label>
                                 <input
                                     type="email"
                                     value={email}
@@ -65,7 +65,7 @@ function SignIn() {
                             </div>
 
                             <div>
-                                <label className="block text-left mb-2 font-['normal'] text-xl" style={{ color: "#2D2D2D" }}>Пароль</label>
+                                <label className="block text-left mb-2 font-normal text-xl" style={{ color: "#2D2D2D" }}>Пароль</label>
                                 <input
                                     type="password"
                                     value={password}
@@ -74,7 +74,7 @@ function SignIn() {
                                     style={{ backgroundColor: "rgba(39, 46, 19, 0.6)", color: "#FFFFFF", border: "2px solid rgba(39, 46, 19, 0.6)" }}
                                 />
                             </div>
-                            <Button className="bg-[#373e1e] opacity-80 w-full text-2xl font-['normal'] text-black" onClick={handleLogin}>Вход</Button>
+                            <Button className="bg-[#373e1e] opacity-80 w-full text-2xl font-normal text-black" onClick={handleLogin}>Вход</Button>
                         </form>
                     </div>
                 </div>

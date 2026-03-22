@@ -57,9 +57,9 @@ function Travels() {
                 />
             </svg>
 
-            <div className="relative z-10 max-w-7xl mx-auto px-6 py-10">
+            <div className="relative z-10 max-w-7xl mx-auto px-6 py-20">
 
-                <h1 className="text-4xl font-bold text-white mb-10">
+                <h1 className="text-4xl font-title text-white mb-10">
                     Ваши маршруты
                 </h1>
 
@@ -67,7 +67,7 @@ function Travels() {
                 {generatedTour && (
                     <div className="mb-10 p-6 rounded-3xl bg-white/70 backdrop-blur-md max-w-xl">
                         
-                        <h2 className="text-2xl font-bold mb-4">
+                        <h2 className="text-2xl font-normal mb-4">
                             Новый сгенерированный маршрут
                         </h2>
 
@@ -84,7 +84,7 @@ function Travels() {
                             {generatedTour.fullDescription}
                         </p>
 
-                        <div className="flex gap-3">
+                        <div className="flex gap-3 font-normal">
                             <Button onClick={saveTour}>
                                 Сохранить
                             </Button>
@@ -99,8 +99,8 @@ function Travels() {
                 <TourList tours={savedTours} />
 
                 {savedTours.length === 0 && !generatedTour && (
-                    <p className="text-white mt-6">
-                        У тебя пока нет сохранённых маршрутов
+                    <p className="text-white font-normal text-xl mt-6">
+                        У вас пока нет сохранённых маршрутов
                     </p>
                 )}
             </div>

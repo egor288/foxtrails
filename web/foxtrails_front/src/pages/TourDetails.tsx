@@ -1,94 +1,243 @@
-import { useState } from "react";
-import photo_2026 from "../assets/photo_2026.jpg"
+import { useState, useEffect } from "react";
+import photo_2026 from "../assets/photo_2026.jpg";
+import { useNavigate } from "react-router-dom";
+import { Button } from "../components/button";
 
-const steps = [
-    {
-        title: "Экскурсия по винодельне «Усадьба Маркотх»",
-        description: "Дегустация вин, прогулка по виноградникам и экскурсия по производству.",
-    },
-    {
-        title: "Ужин в рыбном ресторане «Rony Oyster»",
-        description: "Свежие морепродукты и авторская кухня на побережье.",
-    },
-    {
-        title: "Пеший поход к дольменам и водопадам реки Жане",
-        description: "Живописный маршрут с природными достопримечательностями.",
-    },
-    {
-        title: "Экскурсия по винодельне «Долина Лефкадия»",
-        description: "Премиальные вина и современное производство.",
-    },
-    {
-        title: "Ужин в ресторане «Пастораль» при винодельне",
-        description: "Гастрономический ужин с локальными продуктами.",
-    },
-];
+interface MapPoint {
+    id: number;
+    name: string;
+    description: string;
+    x: number;
+    y: number;
+    image?: string;
+}
+
+// Данные с API
+interface APIPoint {
+    id: number;
+    name: string;
+    description: string;
+    image?: string;
+}
+
+interface TourImage {
+    id: number;
+    url: string;
+    alt: string;
+}
+
+interface SavedTour {
+    id: string;
+    name: string;
+    date: string;
+    points: MapPoint[];
+    images: TourImage[];
+}
 
 export default function TourPage() {
-    const [activeIndex, setActiveIndex] = useState<number | null>(null);
+    const navigate = useNavigate(); // ← переместили внутрь компонента
+    const [hoveredPoint, setHoveredPoint] = useState<number | null>(null);
+    const [visiblePoints, setVisiblePoints] = useState<MapPoint[]>([]);
+    const [images, setImages] = useState<TourImage[]>([]);
+    const [loading, setLoading] = useState(true);
+
+    const predefinedPoints: Omit<MapPoint, 'name' | 'description'>[] = [
+        { id: 1, x: 25, y: 40 },
+        { id: 2, x: 55, y: 35 },
+        { id: 3, x: 75, y: 55 },
+        { id: 4, x: 45, y: 70 },
+        { id: 5, x: 80, y: 80 },
+    ];
+
+    // Загрузка изображений
+    useEffect(() => {
+        const fetchImages = async () => {
+            try {
+                const response = await fetch('/api/tour-images');
+                const data = await response.json();
+                setImages(data);
+            } catch (error) {
+                console.error('Ошибка загрузки изображений:', error);
+            }
+        };
+        fetchImages();
+    }, []);
+
+    // Загрузка точек
+    useEffect(() => {
+        const fetchPoints = async () => {
+            try {
+                const response = await fetch('../shared/api/generateRoute');
+                const apiData: APIPoint[] = await response.json();
+
+                const mergedPoints: MapPoint[] = predefinedPoints
+                    .map(predefined => {
+                        const apiPoint = apiData.find(api => api.id === predefined.id);
+
+                        if (apiPoint && apiPoint.name && apiPoint.description) {
+                            return {
+                                id: predefined.id,
+                                x: predefined.x,
+                                y: predefined.y,
+                                name: apiPoint.name,
+                                description: apiPoint.description,
+                            };
+                        }
+                        return null;
+                    })
+                    .filter((point): point is MapPoint => point !== null);
+
+                setVisiblePoints(mergedPoints);
+            } catch (error) {
+                console.error('Ошибка загрузки точек:', error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchPoints();
+    }, []);
+
+    const imageCount = images.length;
+
+    const handleSaveTour = () => {
+        const savedTours: SavedTour[] = JSON.parse(localStorage.getItem('savedTours') || '[]');
+        
+        const newTour: SavedTour = {
+            id: Date.now().toString(),
+            name: `Тур от ${new Date().toLocaleDateString()}`,
+            date: new Date().toISOString(),
+            points: visiblePoints,
+            images: images,
+        };
+        
+        savedTours.push(newTour);
+        localStorage.setItem('savedTours', JSON.stringify(savedTours));
+        
+        // Переход на страницу с иконкой тура
+        navigate('/travels');
+    };
+
+    if (loading) {
+        return (
+            <div className="min-h-screen flex items-center justify-center" style={{ backgroundImage: `url(${photo_2026})`, backgroundSize: 'cover' }}>
+                <div className="text-white text-xl font-normal">Загрузка...</div>
+            </div>
+        );
+    }
 
     return (
-        <div className="min-h-screen bg-[#4b5335] text-white p-20 overflow-hidden "
-            style={{ background: `url(${photo_2026})` }}>
-            <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-10">
-                {/* LEFT SIDE */}
-                <div className="relative mb-10">
+        <div className="flex min-h-screen text-white overflow-hidden" style={{ backgroundImage: `url(${photo_2026})`, backgroundSize: 'cover' }}>
+            {/* Левая часть с точками */}
+            <div className="w-1/2 p-8 flex flex-col justify-center relative">
+                {/* Кнопка сохранения тура */}
+                
 
-                    <div className="space-y-20 pl-20">
-                        {steps.map((step, index) => (
-                            <div
-                                key={index}
-                                className="relative"
-                                onMouseEnter={() => setActiveIndex(index)}
-                                onMouseLeave={() => setActiveIndex(null)}
-                            >
-                                {/* dot */}
-                                <div className="absolute -left-10 top-2 w-4 h-4 rounded-full bg-white" />
+                {visiblePoints.map((point) => (
+                    <div
+                        key={point.id}
+                        className="absolute cursor-pointer"
+                        style={{
+                            left: `${point.x}%`,
+                            top: `${point.y}%`,
+                            transform: 'translate(-50%, -50%)'
+                        }}
+                        onMouseEnter={() => setHoveredPoint(point.id)}
+                        onMouseLeave={() => setHoveredPoint(null)}
+                    >
+                        {/* Точка */}
+                        <div className="w-6 h-6 bg-red-500 rounded-full border-2 border-white shadow-lg animate-pulse"></div>
 
-                                {/* card */}
-                                <div className="bg-[#5a6440] px-5 py-3 rounded-xl inline-block max-w-md cursor-pointer">
-                                    <p className="text-sm leading-snug">{step.title}</p>
-                                </div>
+                        {/* Название точки */}
+                        <div className="absolute top-8 left-1/2 -translate-x-1/2 whitespace-nowrap bg-black/70 text-white text-sm px-2 py-1 rounded">
+                            {point.name}
+                        </div>
 
-                                {/* transparent tooltip */}
-                                {activeIndex === index && (
-                                    <div className="absolute left-0 top-full mt-3 w-72 bg-white/70 backdrop-blur-md text-black p-4 rounded-xl shadow-lg z-10 border border-white/30">
-                                        <p className="text-sm font-medium mb-2">{step.title}</p>
-                                        <p className="text-xs opacity-80">{step.description}</p>
-                                    </div>
-                                )}
+                        {/* Модальное окно при наведении */}
+                        {hoveredPoint === point.id && (
+                            <div className="absolute top-14 left-1/2 -translate-x-1/2 w-64 bg-white rounded-lg shadow-xl p-4 z-20">
+                                <h3 className="font-bold text-lg mb-2" style={{ color: "#2D2D2D" }}>
+                                    {point.name}
+                                </h3>
+                                <p className="text-gray-600 text-sm mb-3">
+                                    {point.description}
+                                </p>
                             </div>
-                        ))}
+                        )}
+                    </div>
+                ))}
+
+                {/* Легенда */}
+                {visiblePoints.length > 0 && (
+                    <div className="mt-8 bg-white/20 backdrop-blur-sm rounded-lg p-4 absolute bottom-8 left-8 right-8">
+                        <div className="flex flex-wrap gap-3">
+                            {visiblePoints.map((point) => (
+                                <div key={point.id} className="flex items-center gap-2">
+                                    <div className="w-3 h-3 bg-red-500 rounded-full"></div>
+                                    <span className="text-white text-sm">{point.name}</span>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                )}
+                
+                {visiblePoints.length === 0 && (
+                    <div className="text-center text-white mt-8">
+                        <p>Нет доступных точек для отображения</p>
+                    </div>
+                )}
+            </div>
+
+            {/* Правая часть с изображениями */}
+            <div className="w-1/2 p-8">
+                <div className="h-full w-full">
+                    <div className="grid grid-cols-2 gap-4 h-full">
+                        {/* Первое изображение всегда слева на всю высоту */}
+                        {images[0] && (
+                            <img
+                                src={images[0].url}
+                                alt={images[0].alt}
+                                className="rounded-2xl object-cover w-full h-full"
+                            />
+                        )}
+
+                        {/* Правая колонка с двумя изображениями */}
+                        <div className="grid grid-rows-2 gap-4">
+                            {images[1] && (
+                                <img
+                                    src={images[1].url}
+                                    alt={images[1].alt}
+                                    className="rounded-2xl object-cover w-full h-full"
+                                />
+                            )}
+                            {images[2] && (
+                                <img
+                                    src={images[2].url}
+                                    alt={images[2].alt}
+                                    className="rounded-2xl object-cover w-full h-full"
+                                />
+                            )}
+                        </div>
+
+                        {/* Нижние изображения для 4 и 5 картинок */}
+                        {imageCount >= 4 && images[3] && (
+                            <img
+                                src={images[3].url}
+                                alt={images[3].alt}
+                                className="rounded-2xl object-cover w-full h-full"
+                            />
+                        )}
+                        {imageCount >= 5 && images[4] && (
+                            <img
+                                src={images[4].url}
+                                alt={images[4].alt}
+                                className="rounded-2xl object-cover w-full h-full"
+                            />
+                        )}
                     </div>
                 </div>
-
-                {/* RIGHT SIDE */}
-                <div className="grid grid-cols-2 gap-4">
-                    <img
-                        src="https://source.unsplash.com/600x800/?mountains,vineyard"
-                        className="rounded-2xl object-cover w-full h-full"
-                    />
-
-                    <div className="grid grid-rows-2 gap-4">
-                        <img
-                            src="https://source.unsplash.com/600x400/?restaurant,interior"
-                            className="rounded-2xl object-cover w-full h-full"
-                        />
-                        <img
-                            src="https://source.unsplash.com/600x400/?waterfall,nature"
-                            className="rounded-2xl object-cover w-full h-full"
-                        />
-                    </div>
-
-                    <img
-                        src="https://source.unsplash.com/600x400/?winery,night"
-                        className="rounded-2xl object-cover w-full h-full"
-                    />
-
-                    <img
-                        src="https://source.unsplash.com/600x400/?vineyard,aerial"
-                        className="rounded-2xl object-cover w-full h-full"
-                    />
+                <div className="absolute bottom-10 right-20 z-20">
+                    <Button className="bg-[#89995D]" onClick={handleSaveTour}>Сохранить тур</Button>
                 </div>
             </div>
         </div>

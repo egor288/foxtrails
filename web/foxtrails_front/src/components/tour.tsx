@@ -25,7 +25,7 @@ export const Tour = ({ tour }: TourCardProps) => {
       
       {/* Заголовок - исчезает при наведении на карточку */}
       <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/70 to-transparent group-hover:opacity-0 transition-opacity duration-300">
-        <h2 className="text-white text-2xl font-['title']">{tour.title}</h2>
+        <h2 className="text-white text-2xl font-title">{tour.title}</h2>
       </div>
     </Link>
   );
